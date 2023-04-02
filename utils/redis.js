@@ -10,7 +10,7 @@ class RedisClient {
   }
 
   isAlive() {
-    console.log(`Connected event: ${this.client.connected}`);
+    return this.client.connected;
   }
 }
 

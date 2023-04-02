@@ -12,10 +12,7 @@ class RedisClient {
 
   // Check connection to the redis-server.
   isAlive() {
-    if (this.client.connected) {
-      return true;
-    }
-    return false;
+    return this.client.connected;
   }
 
   // Get the value stored at index 'key' in the redis store.

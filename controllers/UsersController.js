@@ -13,18 +13,18 @@ class UsersController {
       return response.status(400).json({ error: 'Missing password' });
     }
 
-    (async (userEmail, pwd) => {
+    return (async (userEmail, pwd) => {
       const user = await dbClient.getUserByEmail(email);
       if (user) {
         return response.status(400).json({ error: 'Already exist' });
-      } else {
-        try {
-          const _id = await dbClient.createUser({email: userEmail, password: sha1(pwd)});
-          return response.status(200).json({ id: _id, email: userEmail});
-        } catch (error) {
-          console.error(`Following error occurred: ${error}`);
-        }
       }
+      let _id = undefined;
+      try {
+        _id = await dbClient.createUser({email: userEmail, password: sha1(pwd)});
+      } catch (error) {
+        console.error(`Following error occurred: ${error}`);
+      }
+      return response.status(200).json({ id: _id, email: userEmail});
     })(email, password);
   }
 }

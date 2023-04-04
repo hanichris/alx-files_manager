@@ -1,7 +1,7 @@
-import { express } from 'express';
+import { Router } from 'express';
 import AppController from '../controllers/AppController';
 
-const router = express.Router();
+const router = Router();
 
 // Status endpoint.
 router.get('/status', AppController.getStatus);

@@ -14,12 +14,12 @@ class UsersController {
     }
 
     return (async (userEmail, pwd) => {
-      const user = await dbClient.getUserByEmail(email);
-      if (user) {
-        return response.status(400).json({ error: 'Already exist' });
-      }
       let _id;
       try {
+        const user = await dbClient.getUserByEmail(email);
+        if (user) {
+          return response.status(400).json({ error: 'Already exist' });
+        }
         _id = await dbClient.createUser({ email: userEmail, password: sha1(pwd) });
       } catch (error) {
         console.error(`Following error occurred: ${error}`);

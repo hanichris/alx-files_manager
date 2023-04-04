@@ -31,7 +31,7 @@ class DBClient {
   }
 
   async getUserByEmail(userEmail) {
-    const user = await this.db.collection('users').findone({email: userEmail});
+    const user = await this.db.collection('users').findone({ email: userEmail });
     return user;
   }
 

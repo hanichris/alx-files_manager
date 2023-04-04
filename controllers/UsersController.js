@@ -23,7 +23,7 @@ class UsersController {
         _id = await dbClient.createUser({ email: userEmail, password: sha1(pwd) });
       } catch (error) {
         console.log(error);
-        return;
+        return response.status(501);
       }
       return response.status(201).json({ id: _id, email: userEmail });
     })(email, password);

@@ -16,7 +16,7 @@ class UsersController {
     return (async (userEmail, pwd) => {
       let _id;
       try {
-        const user = await dbClient.getUserByEmail(email);
+        const user = await dbClient.getUser({ email: userEmail });
         if (user) {
           return response.status(400).json({ error: 'Already exist' });
         }

@@ -51,7 +51,7 @@ class FilesController {
         const id = await dbClient.createFile(saveFile);
         saveFile._id = id;
         saveFile.userId = user._id.toString();
-        saveFile.parentId = parentId;
+        saveFile.parentId = saveFile.parentId.toString();
         return response.status(201).json(saveFile);
       } catch (error) {
         console.error(`Error: ${error}`);

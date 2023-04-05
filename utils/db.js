@@ -39,6 +39,16 @@ class DBClient {
     const result = await this.db.collection('users').insertOne(newUser);
     return result.insertedId;
   }
+
+  async getFile(fileDetails) {
+    const file = await this.db.collection('files').findOne(fileDetails);
+    return file;
+  }
+
+  async createFile(newFile) {
+    const result = await this.db.collection('files').insertOne(newFile);
+    return result.insertedId;
+  }
 }
 
 const dbClient = new DBClient();

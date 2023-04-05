@@ -3,7 +3,7 @@ class AuthController {
     const authValue = request.header('Authorization');
     const encodedCredentials = authValue.split(' ')[1];
 
-    return response.status(200).json({ credentials: encodedCredentials});
+    return response.status(200).json({ credentials: encodedCredentials });
   }
 }
 

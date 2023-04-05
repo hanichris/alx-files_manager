@@ -53,9 +53,10 @@ class FilesController {
         return response.status(201).json(saveFile);
       } catch (error) {
         console.error(`Error: ${error}`);
-        return response.status(500).json({msg: 'Internal server error occured.'});
+        return response.status(500).json({ msg: 'Internal server error occured.' });
       }
     }
+    return response.status(200).end();
   }
 }
 

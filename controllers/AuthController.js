@@ -27,6 +27,11 @@ class AuthController {
       return response.status(200).json({ token });
     })(email, pwd);
   }
+
+  static getDisconnect(request, response) {
+    const token = request.header('X-Token');
+    return response.status(200).json({ msg: `Received X-token: ${token}` });
+  }
 }
 
 module.exports = AuthController;

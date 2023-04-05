@@ -10,6 +10,6 @@ router.get('/stats', AppController.getStats); // GET /stats.
 router.post('/users', UsersController.postNew); // POST /users.
 // router.get('/users/me', UsersController.getMe); // GET /users/me
 router.get('/connect', AuthController.getConnect); // GET /connect
-// router.get('/disconnect', AuthController.getDisconnect); // GET /disconnect
+router.get('/disconnect', AuthController.getDisconnect); // GET /disconnect
 
 module.exports = router;

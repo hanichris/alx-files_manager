@@ -30,8 +30,8 @@ class DBClient {
     return fileCount;
   }
 
-  async getUserByEmail(userEmail) {
-    const user = await this.db.collection('users').findOne({ email: userEmail });
+  async getUser(userDetails) {
+    const user = await this.db.collection('users').findOne(userDetails);
     return user;
   }
 

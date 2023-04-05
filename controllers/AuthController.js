@@ -5,10 +5,10 @@ class AuthController {
   static getConnect(request, response) {
     const authValue = request.header('Authorization');
     const encodedCredentials = authValue.split(' ')[1];
-    const buff = new Buffer(encodedCredentials, 'base64');
+    const buff = Buffer.from(encodedCredentials, 'base64');
     const decodedCredentials = buff.toString('ascii');
 
-    const [ email, pwd ] = decodedCredentials.split(':');
+    const [email, pwd] = decodedCredentials.split(':');
 
     if (!email || !pwd) {
       return response.status(401).json({ error: 'Unauthorized' });
@@ -19,7 +19,7 @@ class AuthController {
       if (!user) {
         return response.status(401).json({ error: 'Unauthorized' });
       }
-      return response.status(200).json({ msg: `Found user with id: ${user.email}`});
+      return response.status(200).json({ msg: `Found user with id: ${user.email}` });
     })(email, pwd);
   }
 }

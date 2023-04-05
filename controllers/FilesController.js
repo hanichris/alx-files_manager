@@ -15,7 +15,7 @@ class FilesController {
       return response.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { isPublic } = request.body || false;
+    const isPublic = request.body.isPublic || false;
     const { name } = request.body;
     if (!name) {
       return response.status(400).json({ error: 'Missing name' });
@@ -41,7 +41,7 @@ class FilesController {
 
     if (type === 'folder') {
       const saveFile = {
-        userId: user._id.toString(),
+        userId: user._id,
         name,
         type,
         isPublic,
@@ -50,6 +50,8 @@ class FilesController {
       try {
         const id = await dbClient.createFile(saveFile);
         saveFile._id = id;
+        saveFile.userId = user._id.toString();
+        saveFile.parentId = parentId;
         return response.status(201).json(saveFile);
       } catch (error) {
         console.error(`Error: ${error}`);

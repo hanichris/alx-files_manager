@@ -91,6 +91,23 @@ class FilesController {
     delete saveFile._id;
     return response.status(201).json(saveFile);
   }
+
+  static async getShow(request, response) {
+    const token = request.header('X-Token');
+    const key = `auth_${token}`;
+    const userId = await redisClient.get(key);
+    if (!userId) {
+      return response.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { id } = request.params;
+    const file = await dbClient.getFile({ _id: id });
+
+    if (!file) {
+      return response.status(404).json({ error: 'Not found' });
+    }
+    return response.status(200).json(file);
+  }
 }
 
 module.exports = FilesController;

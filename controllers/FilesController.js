@@ -119,7 +119,7 @@ class FilesController {
     }
 
     const { parentId = 0, page = 0 } = request.query;
-    console.log(parentId)
+    console.log(parentId);
     return response.send(`Page: ${page}`);
   }
 }

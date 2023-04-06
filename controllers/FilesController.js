@@ -67,11 +67,11 @@ class FilesController {
     const buff = Buffer.from(data, 'base64');
     mkdir(folderPath, { recursive: true }, (err) => {
       if (err) {
-        console.error(err.message);
+        return response.status(400).json({ error: err.message });
       } else {
         writeFile(filePath, buff, (err) => {
           if (err) {
-            console.error(err.message);
+            return response.status(400).json({ error: err.message });
           }
         });
       }

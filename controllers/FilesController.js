@@ -68,13 +68,14 @@ class FilesController {
     mkdir(folderPath, { recursive: true }, (err) => {
       if (err) {
         return response.status(400).json({ error: err.message });
-      } else {
-        writeFile(filePath, buff, (err) => {
-          if (err) {
-            return response.status(400).json({ error: err.message });
-          }
-        });
       }
+      writeFile(filePath, buff, (err) => {
+        if (err) {
+          return response.status(400).json({ error: err.message });
+        }
+        return;
+      });
+      return;
     });
     saveFile.localPath = filePath;
     try {

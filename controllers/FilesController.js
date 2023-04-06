@@ -48,7 +48,7 @@ class FilesController {
       isPublic,
       parentId: parentId === 0 ? '0' : new ObjectID(parentId),
     };
-  
+
     if (type === 'folder') {
       try {
         const id = await dbClient.createFile(saveFile);

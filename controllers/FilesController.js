@@ -108,6 +108,18 @@ class FilesController {
     }
     return response.status(200).json(file);
   }
+
+  static async getIndex(request, response) {
+    const token = request.header('X-Token');
+    const key = `auth_${token}`;
+    const userId = await redisClient.get(key);
+    if (!userId) {
+      return response.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { parentId, page } = request.query;
+    return parentId;
+  }
 }
 
 module.exports = FilesController;

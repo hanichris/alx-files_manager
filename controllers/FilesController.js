@@ -45,13 +45,12 @@ class FilesController {
         name,
         type,
         isPublic,
-        parentId: parentId === 0 ? '0' : new ObjectID(parentId),
+        parentId: parentId,
       };
       try {
         const id = await dbClient.createFile(saveFile);
         saveFile._id = id;
         saveFile.userId = user._id.toString();
-        saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
         return response.status(201).json(saveFile);
       } catch (error) {
         console.error(`Error: ${error}`);

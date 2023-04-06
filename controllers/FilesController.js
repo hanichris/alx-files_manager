@@ -55,8 +55,7 @@ class FilesController {
         saveFile.id = resultId;
         saveFile.userId = user._id.toString();
         saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
-	delete saveFile._id;
-	console.log(saveFile);
+        delete saveFile._id;
         return response.status(201).json(saveFile);
       } catch (e) {
         console.error(e.message);
@@ -85,10 +84,9 @@ class FilesController {
       saveFile.userId = user._id.toString();
       saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
     } catch (e) {
-      console.log(e.message);
+      console.error(e.message);
       return response.status(500).json({ msg: 'Internal server error occured.' });
     }
-    console.log(saveFile);
     delete saveFile._id;
     return response.status(201).json(saveFile);
   }

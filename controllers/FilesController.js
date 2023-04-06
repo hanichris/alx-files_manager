@@ -118,8 +118,9 @@ class FilesController {
       return response.status(401).json({ error: 'Unauthorized' });
     }
 
-    const { parentId, page } = request.query;
-    return [parentId, page];
+    const { parentId = 0, page = 0 } = request.query;
+    console.log(parentId)
+    return response.send(`Page: ${page}`);
   }
 }
 

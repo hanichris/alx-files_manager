@@ -15,7 +15,7 @@ class FilesController {
       return response.status(401).json({ error: 'Unauthorized' });
     }
 
-    const isPublic = request.body.isPublic || false;
+    const { isPublic = false } = request.body;
     const { name } = request.body;
     if (!name) {
       return response.status(400).json({ error: 'Missing name' });
@@ -28,7 +28,8 @@ class FilesController {
     if (!data && type !== 'folder') {
       return response.status(400).json({ error: 'Missing data' });
     }
-    const { parentId } = request.body || 0;
+    const { parentId = 0 } = request.body;
+    console.log(`parentId accessed from request.body: ${parentId}`);
     if (parentId) {
       const file = await dbClient.getFile({ parentId: new ObjectID(parentId) });
       if (!file) {
@@ -40,6 +41,7 @@ class FilesController {
     }
 
     if (type === 'folder') {
+      console.log(`ParentID received: ${parentId}`);
       const saveFile = {
         userId: user._id,
         name,

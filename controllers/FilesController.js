@@ -118,7 +118,7 @@ class FilesController {
     }
 
     const { parentId, page } = request.query;
-    return parentId;
+    return [parentId, page];
   }
 }
 

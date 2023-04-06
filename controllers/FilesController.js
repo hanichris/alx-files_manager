@@ -52,10 +52,11 @@ class FilesController {
     if (type === 'folder') {
       try {
         const resultId = await dbClient.createFile(saveFile);
-        console.log(`ID (type folder): ${resultId}`);
         saveFile.id = resultId;
         saveFile.userId = user._id.toString();
         saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
+	delete saveFile._id;
+	console.log(saveFile);
         return response.status(201).json(saveFile);
       } catch (e) {
         console.error(e.message);
@@ -79,7 +80,6 @@ class FilesController {
     saveFile.localPath = folderPath;
     try {
       const resultId = await dbClient.createFile(saveFile);
-      console.log(`ID: ${resultId}`);
       delete saveFile.localPath;
       saveFile.id = resultId;
       saveFile.userId = user._id.toString();
@@ -88,6 +88,8 @@ class FilesController {
       console.log(e.message);
       return response.status(500).json({ msg: 'Internal server error occured.' });
     }
+    console.log(saveFile);
+    delete saveFile._id;
     return response.status(201).json(saveFile);
   }
 }

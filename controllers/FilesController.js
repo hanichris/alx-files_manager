@@ -51,8 +51,9 @@ class FilesController {
 
     if (type === 'folder') {
       try {
-        const id = await dbClient.createFile(saveFile);
-        saveFile.id = id;
+        const resultId = await dbClient.createFile(saveFile);
+        console.log(`ID (type folder): ${resultId}`);
+        saveFile.id = resultId;
         saveFile.userId = user._id.toString();
         saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
         return response.status(201).json(saveFile);
@@ -77,9 +78,10 @@ class FilesController {
     });
     saveFile.localPath = folderPath;
     try {
-      const _id = await dbClient.createFile(saveFile);
+      const resultId = await dbClient.createFile(saveFile);
+      console.log(`ID: ${resultId}`);
       delete saveFile.localPath;
-      saveFile.id = _id;
+      saveFile.id = resultId;
       saveFile.userId = user._id.toString();
       saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
     } catch (e) {

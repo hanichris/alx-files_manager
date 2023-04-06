@@ -73,9 +73,9 @@ class FilesController {
         if (err) {
           return response.status(400).json({ error: err.message });
         }
-        return;
+        return true;
       });
-      return;
+      return true;
     });
     saveFile.localPath = filePath;
     try {

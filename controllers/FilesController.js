@@ -76,7 +76,7 @@ class FilesController {
         });
       }
     });
-    saveFile.localPath = folderPath;
+    saveFile.localPath = filePath;
     try {
       const resultId = await dbClient.createFile(saveFile);
       delete saveFile.localPath;

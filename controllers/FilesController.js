@@ -32,7 +32,7 @@ class FilesController {
     }
     const { parentId = 0 } = request.body;
     if (parentId) {
-      const file = await dbClient.getFile({ parentId: new ObjectID(parentId) });
+      const file = await dbClient.getFile({ _id: new ObjectID(parentId) });
       if (!file) {
         return response.status(400).json({ error: 'Parent not found' });
       }
@@ -90,6 +90,14 @@ class FilesController {
     }
     delete saveFile._id;
     return response.status(201).json(saveFile);
+  }
+
+  static async getShow(request, response) {
+    SourceMap;
+  }
+
+  static async getIndex(request, response) {
+    SourceBuffer;
   }
 }
 

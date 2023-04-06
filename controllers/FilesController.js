@@ -1,4 +1,6 @@
+import { mkdir, writeFile } from 'fs';
 import { ObjectID } from 'mongodb';
+import { v4 as uuidv4 } from 'uuid';
 import dbClient from '../utils/db';
 import redisClient from '../utils/redis';
 
@@ -29,7 +31,6 @@ class FilesController {
       return response.status(400).json({ error: 'Missing data' });
     }
     const { parentId = 0 } = request.body;
-    console.log(`parentId accessed from request.body: ${parentId}`);
     if (parentId) {
       const file = await dbClient.getFile({ parentId: new ObjectID(parentId) });
       if (!file) {
@@ -40,26 +41,53 @@ class FilesController {
       }
     }
 
+    const saveFile = {
+      userId: user._id,
+      name,
+      type,
+      isPublic,
+      parentId: parentId === 0 ? '0' : new ObjectID(parentId),
+    };
+  
     if (type === 'folder') {
-      console.log(`ParentID received: ${parentId}`);
-      const saveFile = {
-        userId: user._id,
-        name,
-        type,
-        isPublic,
-        parentId: parentId,
-      };
       try {
         const id = await dbClient.createFile(saveFile);
         saveFile._id = id;
         saveFile.userId = user._id.toString();
+        saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
         return response.status(201).json(saveFile);
-      } catch (error) {
-        console.error(`Error: ${error}`);
+      } catch (e) {
+        console.error(e.message);
         return response.status(500).json({ msg: 'Internal server error occured.' });
       }
     }
-    return response.status(200).end();
+    const folderPath = process.env.FOLDER_PATH || '/tmp/files_manager';
+    const filePath = `${folderPath}/${uuidv4()}`;
+    const buff = Buffer.from(data, 'base64');
+    mkdir(folderPath, { recursive: true }, (err) => {
+      if (err) {
+        console.error(err.message);
+      } else {
+        writeFile(filePath, buff, (err) => {
+          if (err) {
+            console.error(err.message);
+          }
+        });
+      }
+    });
+    saveFile.localPath = folderPath;
+    let _id;
+    try {
+      _id = await dbClient.createFile(saveFile);
+      delete saveFile.localPath;
+      saveFile._id = _id;
+      saveFile.userId = user._id.toString();
+      saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
+    } catch (e) {
+      console.log(e.message);
+      return response.status(500).json({ msg: 'Internal server error occured.' });
+    }
+    return response.status(201).json(saveFile);
   }
 }
 

@@ -52,7 +52,7 @@ class FilesController {
     if (type === 'folder') {
       try {
         const id = await dbClient.createFile(saveFile);
-        saveFile._id = id;
+        saveFile.id = id;
         saveFile.userId = user._id.toString();
         saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
         return response.status(201).json(saveFile);
@@ -76,11 +76,10 @@ class FilesController {
       }
     });
     saveFile.localPath = folderPath;
-    let _id;
     try {
-      _id = await dbClient.createFile(saveFile);
+      const _id = await dbClient.createFile(saveFile);
       delete saveFile.localPath;
-      saveFile._id = _id;
+      saveFile.id = _id;
       saveFile.userId = user._id.toString();
       saveFile.parentId = saveFile.parentId === '0' ? 0 : saveFile.parentId.toString();
     } catch (e) {

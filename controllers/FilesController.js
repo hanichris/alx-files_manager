@@ -91,14 +91,6 @@ class FilesController {
     delete saveFile._id;
     return response.status(201).json(saveFile);
   }
-
-  static async getShow(request, response) {
-    SourceMap;
-  }
-
-  static async getIndex(request, response) {
-    SourceBuffer;
-  }
 }
 
 module.exports = FilesController;

@@ -133,15 +133,22 @@ class FilesController {
             data: [{ $skip: 20 * +page }, { $limit: 20 }],
           },
         },
-        { $project: { id: '$_id' } },
-        { $project: { localPath: 0 } },
       ],
     ).toArray((err, result) => {
       if (err) {
         console.error(err.message);
         return response.status(404).json({ error: 'Not found' });
       }
-      return response.status(200).json(result);
+      const data = result[0].data.map((field) => {
+        const _f = {
+          ...field,
+          id: field._id,
+        };
+        delete _f._id;
+        delete _f.localPath;
+        return _f;
+      })
+      return response.status(200).json(data);
     });
   }
 }

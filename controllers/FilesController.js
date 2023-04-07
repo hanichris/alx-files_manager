@@ -102,7 +102,7 @@ class FilesController {
 
     const { id } = request.params;
     console.log(`Request.params.id: ${id}`);
-    const file = await dbClient.getFile({ _id: new ObjectID(id)});
+    const file = await dbClient.getFile({ _id: new ObjectID(id) });
 
     if (!file) {
       return response.status(404).json({ error: 'Not found' });

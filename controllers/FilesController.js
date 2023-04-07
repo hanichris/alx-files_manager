@@ -133,8 +133,8 @@ class FilesController {
             data: [{ $skip: 20 * +page }, { $limit: 20 }],
           },
         },
-        { $project: { id: '$_id'} },
-        { $project: { localPath: 0 }},
+        { $project: { id: '$_id' } },
+        { $project: { localPath: 0 } },
       ],
     ).toArray((err, result) => {
       if (err) {

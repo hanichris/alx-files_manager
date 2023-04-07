@@ -141,6 +141,7 @@ class FilesController {
         console.error(err.message);
         return response.status(404).json({ error: 'Not found' });
       }
+      console.log(result);
       const data = result[0].data.map((field) => {
         const _f = {
           ...field,

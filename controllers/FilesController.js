@@ -168,12 +168,12 @@ class FilesController {
       { returnOriginal: false },
     );
 
-    if (!file) {
+    if (!file.lastErrorObject.updatedExisting) {
       return response.status(404).json({ error: 'Not found' });
     }
-    file.id = file._id;
-    delete file._id;
-    return response.status(200).json(file);
+    file.value.id = file.value._id;
+    delete file.value._id;
+    return response.status(200).json(file.value);
   }
 
   static async putUnpublish(request, response) {
@@ -191,12 +191,12 @@ class FilesController {
       { returnOriginal: false },
     );
 
-    if (!file) {
+    if (!file.lastErrorObject.updatedExisting) {
       return response.status(404).json({ error: 'Not found' });
     }
-    file.id = file._id;
-    delete file._id;
-    return response.status(200).json(file);
+    file.value.id = file.value._id;
+    delete file.value._id;
+    return response.status(200).json(file.value);
   }
 }
 

@@ -125,7 +125,7 @@ class FilesController {
     } else {
       filter = { userId, parentId: new ObjectID(parentId) };
     }
-    return dbClient.files.aggregate(
+    return dbClient.db.collection('files').aggregate(
       [
         { $match: filter },
         {

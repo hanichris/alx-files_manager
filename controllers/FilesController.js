@@ -102,7 +102,7 @@ class FilesController {
 
     const { id } = request.params;
     console.log(`Request.params.id: ${id}`);
-    const file = await dbClient.getFile({ _id: new ObjectID(id) });
+    const file = await dbClient.getFile({ _id: new ObjectID(id), userId: userId });
 
     if (!file) {
       return response.status(404).json({ error: 'Not found' });
@@ -119,8 +119,31 @@ class FilesController {
     }
 
     const { parentId = 0, page = 0 } = request.query;
-    console.log(parentId);
-    return response.send(`Page: ${page}`);
+    let filter;
+    if (!parentId) {
+      filter = { userId: userId };
+    } else {
+      filter = { userId: userId, parentId: new ObjectID(parentId) };
+    }
+    return dbClient.files.aggregate([
+      {
+        $match: filter
+      },
+      {
+        $facet: {
+          data: [{ $skip: 20 * +page}, { $limit: 20 }]
+        }
+      },
+      {
+        $project: { id: $_id, localPath: 0 }
+      }
+    ], (err, data) => {
+      if (err) {
+        console.error(`Error occurred: ${err.message}`);
+        return response.status(404).json({ error: 'Not found' });
+      }
+      return response.status(200).json(data);
+    });
   }
 }
 

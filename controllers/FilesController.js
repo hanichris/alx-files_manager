@@ -101,7 +101,6 @@ class FilesController {
     }
 
     const { id } = request.params;
-    console.log(`Request.params.id: ${id}`);
     const file = await dbClient.getFile({ _id: new ObjectID(id) });
 
     if (!file) {
@@ -141,7 +140,6 @@ class FilesController {
         console.error(err.message);
         return response.status(404).json({ error: 'Not found' });
       }
-      console.log(result);
       const data = result[0].data.map((field) => {
         const _f = {
           ...field,

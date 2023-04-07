@@ -134,13 +134,14 @@ class FilesController {
           },
         },
         { $project: { id: '$_id', localPath: 0 } },
-      ],).toArray((err, result) => {
-        if (err) {
-          console.error(err.message);
-          return response.status(404).json({ error: 'Not found' });
-        }
-        return response.status(200).json(result);
-      });
+      ],
+    ).toArray((err, result) => {
+      if (err) {
+        console.error(err.message);
+        return response.status(404).json({ error: 'Not found' });
+      }
+      return response.status(200).json(result);
+    });
   }
 }
 

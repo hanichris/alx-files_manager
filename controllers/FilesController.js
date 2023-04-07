@@ -107,6 +107,8 @@ class FilesController {
     if (!file) {
       return response.status(404).json({ error: 'Not found' });
     }
+    file.id = _id;
+    delete file._id;
     return response.status(200).json(file);
   }
 

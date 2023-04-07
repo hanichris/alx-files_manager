@@ -140,7 +140,7 @@ class FilesController {
           return response.status(404).json({ error: 'Not found' });
         }
         return response.status(200).json(data);
-      }
+      },
     );
   }
 }

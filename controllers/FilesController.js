@@ -164,7 +164,7 @@ class FilesController {
     const { id } = request.params;
     const file = await dbClient.db.collections('files').findOneAndUpdate(
       { _id: new ObjectID(id), userId: new ObjectID(userId) },
-      { isPublic: true },
+      { $set: { isPublic: true } },
       { returnOriginal: false }
     );
 
@@ -187,7 +187,7 @@ class FilesController {
     const { id } = request.params;
     const file = await dbClient.db.collections('files').findOneAndUpdate(
       { _id: new ObjectID(id), userId: new ObjectID(userId) },
-      { isPublic: false },
+      { $set: { isPublic: false } },
       { returnOriginal: false }
     );
 

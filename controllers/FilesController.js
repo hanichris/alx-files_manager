@@ -147,7 +147,7 @@ class FilesController {
         delete _f._id;
         delete _f.localPath;
         return _f;
-      })
+      });
       return response.status(200).json(data);
     });
   }

@@ -134,7 +134,7 @@ class FilesController {
           },
         },
         { $project: { id: '$_id', localPath: 0 } },
-      ], (err, data) => {
+      ], {}, (err, data) => {
         if (err) {
           console.error(`Error occurred: ${err.message}`);
           return response.status(404).json({ error: 'Not found' });

@@ -128,19 +128,20 @@ class FilesController {
     return dbClient.files.aggregate(
       [
         { $match: filter },
-        { 
+        {
           $facet: {
-            data: [{ $skip: 20 * +page}, { $limit: 20 }]
-          }
+            data: [{ $skip: 20 * +page }, { $limit: 20 }],
+          },
         },
-        { $project: { id: "$_id", localPath: 0 } }
+        { $project: { id: '$_id', localPath: 0 } },
       ], (err, data) => {
         if (err) {
           console.error(`Error occurred: ${err.message}`);
           return response.status(404).json({ error: 'Not found' });
         }
         return response.status(200).json(data);
-      });
+      }
+    );
   }
 }
 

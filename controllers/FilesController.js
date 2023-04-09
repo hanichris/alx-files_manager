@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'fs';
 import { ObjectID } from 'mongodb';
-import mime, { contentType } from 'mime-types';
+import mime from 'mime-types';
 import { v4 as uuidv4 } from 'uuid';
 import dbClient from '../utils/db';
 import redisClient from '../utils/redis';
@@ -204,7 +204,7 @@ class FilesController {
     const token = request.header('X-Token');
     const key = `auth_${token}`;
     const userId = await redisClient.get(key);
-    
+
     const { id } = request.query;
     const file = await dbClient.getFile({ _id: new ObjectID(id) });
     if (!file) {
@@ -227,7 +227,6 @@ class FilesController {
         response.status(404).json({ error: 'Not found' });
       }
     });
-
   }
 }
 

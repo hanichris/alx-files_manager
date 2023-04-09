@@ -109,6 +109,7 @@ class FilesController {
     }
     file.id = file._id;
     delete file._id;
+    delete file.localPath;
     return response.status(200).json(file);
   }
 
@@ -174,6 +175,7 @@ class FilesController {
     }
     file.value.id = file.value._id;
     delete file.value._id;
+    delete file.value.localPath;
     return response.status(200).json(file.value);
   }
 
@@ -197,6 +199,7 @@ class FilesController {
     }
     file.value.id = file.value._id;
     delete file.value._id;
+    delete file.value.localPath;
     return response.status(200).json(file.value);
   }
 

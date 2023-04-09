@@ -211,7 +211,7 @@ class FilesController {
     const { id } = request.query;
     const file = await dbClient.getFile({ _id: new ObjectID(id) });
     if (!file) {
-      console.error(`File was not found!!!`);
+      console.error('File was not found!!!');
       return response.status(404).json({ error: 'Not found' });
     }
     if ((!file.isPublic && !userId) || (!file.isPublic && file.userId.toString() !== userId)) {

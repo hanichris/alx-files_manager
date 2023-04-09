@@ -208,7 +208,7 @@ class FilesController {
     const key = `auth_${token}`;
     const userId = await redisClient.get(key);
 
-    const { id } = request.query;
+    const { id } = request.params;
     const file = await dbClient.getFile({ _id: new ObjectID(id) });
     if (!file) {
       console.error('File was not found!!!');

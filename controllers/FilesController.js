@@ -230,6 +230,7 @@ class FilesController {
       if (err) {
         return response.status(404).json({ error: 'Not found' });
       }
+      return null;
     });
   }
 }

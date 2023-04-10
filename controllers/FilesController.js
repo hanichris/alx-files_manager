@@ -228,7 +228,7 @@ class FilesController {
     const content = mime.contentType(file.name);
     return response.header('Content-Type', content).sendFile(fileName, (err) => {
       if (err) {
-        response.status(404).json({ error: 'Not found' });
+        return response.status(404).json({ error: 'Not found' });
       }
     });
   }

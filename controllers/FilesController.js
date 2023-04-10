@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'fs';
+import { existsSync, mkdir, writeFile } from 'fs';
 import { ObjectID } from 'mongodb';
 import mime from 'mime-types';
 import { v4 as uuidv4 } from 'uuid';
@@ -221,14 +221,12 @@ class FilesController {
       return response.status(400).json({ error: "A folder doesn't have content" });
     }
 
-    try {
-      const fileName = file.localPath;
-      const content = mime.contentType(file.name);
-      return response.header('Content-Type', content).sendFile(fileName);
-    } catch (e) {
-      console.error(`Encountered an error: ${e.message}`);
+    const fileName = file.localPath;
+    if (!existsSync(fileName)) {
       return response.status(404).json({ error: 'Not found' });
     }
+    const content = mime.contentType(file.name);
+    return response.header('Content-Type', content).status(200).sendFile(fileName);
   }
 }
 

@@ -224,13 +224,13 @@ class FilesController {
       return response.status(400).json({ error: "A folder doesn't have content" });
     }
 
-    try {
-      const fileName = file.localPath;
-      const contentType = mime.contentType(file.name);
-      return response.header('Content-Type', contentType).status(200).sendFile(fileName);
-    } catch (e) {
-      return response.status(404).json({ error: 'Not found' });
-    }
+    const fileName = file.localPath;
+    const content = mime.contentType(file.name);
+    return response.header('Content-Type', content).sendFile(fileName, (err) => {
+      if (err) {
+        response.status(404).json({ error: 'Not found' });
+      }
+    });
   }
 }
 

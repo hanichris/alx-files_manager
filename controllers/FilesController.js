@@ -215,9 +215,6 @@ class FilesController {
       return response.status(404).json({ error: 'Not found' });
     }
     if ((!file.isPublic && !userId) || (!file.isPublic && file.userId.toString() !== userId)) {
-      console.error(`file.userId.toString(): ${file.userId.toString()}`);
-      console.error(`userId: ${userId}`);
-      console.error(`file.isPublic: ${file.isPublic}`);
       return response.status(404).json({ error: 'Not found' });
     }
     if (file.type === 'folder') {
@@ -229,7 +226,7 @@ class FilesController {
       const content = mime.contentType(file.name);
       return response.header('Content-Type', content).sendFile(fileName);
     } catch (e) {
-      console.error(e.message);
+      console.error(`Encountered an error: ${e.message}`);
       return response.status(404).json({ error: 'Not found' });
     }
   }

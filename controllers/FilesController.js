@@ -93,7 +93,7 @@ class FilesController {
     delete saveFile._id;
     if (type === 'image') {
       const fileQueue = new Queue('fileQueue', 'redis://127.0.0.1:6379');
-      const job = fileQueue.add({fileId: saveFile.id, userId: saveFile.userId});
+      fileQueue.add({ fileId: saveFile.id, userId: saveFile.userId });
     }
     return response.status(201).json(saveFile);
   }

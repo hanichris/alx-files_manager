@@ -1,7 +1,7 @@
 import Queue from 'bull';
 import { writeFile } from 'fs';
 import { ObjectID } from 'mongodb';
-import { imageThumbnail } from 'image-thumbnail';
+const imageThumbnail = require('image-thumbnail');
 import dbClient from './utils/db';
 
 const fileQueue = new Queue('fileQueue', 'redis://127.0.0.1:6379');

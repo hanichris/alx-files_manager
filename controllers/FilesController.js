@@ -1,3 +1,4 @@
+import Queue from 'bull';
 import { existsSync, mkdir, writeFile } from 'fs';
 import { ObjectID } from 'mongodb';
 import mime from 'mime-types';
@@ -90,6 +91,10 @@ class FilesController {
       return response.status(500).json({ msg: 'Internal server error occured.' });
     }
     delete saveFile._id;
+    if (type === 'image') {
+      const fileQueue = new Queue('fileQueue', 'redis://127.0.0.1:6379');
+      const job = fileQueue.add({fileId: saveFile.id, userId: saveFile.userId});
+    }
     return response.status(201).json(saveFile);
   }
 
@@ -209,6 +214,7 @@ class FilesController {
     const userId = await redisClient.get(key);
 
     const { id } = request.params;
+    const { size = 0 } = request.query;
     const file = await dbClient.getFile({ _id: new ObjectID(id) });
     if (!file) {
       console.error('File was not found!!!');
@@ -221,7 +227,7 @@ class FilesController {
       return response.status(400).json({ error: "A folder doesn't have content" });
     }
 
-    const fileName = file.localPath;
+    const fileName = size > 0 ? `${file.localPath}_${size}` : file.localPath;
     if (!existsSync(fileName)) {
       return response.status(404).json({ error: 'Not found' });
     }

@@ -13,8 +13,10 @@ fileQueue.process(async (job, done) => {
   if (!Object.hasOwn(job.data, 'userId')) {
     throw new Error('Missing userId');
   }
-  const file = await dbClient.getFile({ _id: new ObjectID(job.data.fileId),
-    userId: new ObjectID(job.data.userId) });
+  const file = await dbClient.getFile({
+    _id: new ObjectID(job.data.fileId),
+    userId: new ObjectID(job.data.userId),
+  });
   if (!file) {
     throw new Error('File not found');
   }
@@ -35,5 +37,4 @@ fileQueue.process(async (job, done) => {
   } catch (e) {
     console.error(e);
   }
-
 });
